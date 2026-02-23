@@ -1,0 +1,20 @@
+def cerca_e_copia(nome_file):
+    """
+    Cerca il file in ogni sottocartella e lo copia con il nome della sottocartella.
+    """
+    cwd = os.getcwd()
+
+    for root, dirs, files in os.walk(cwd):
+        if root != cwd:  # Evitiamo di copiare nella cartella principale
+            if nome_file in files:
+                nome_sottocartella = os.path.basename(root)
+                nuovo_nome = nome_sottocartella
+                
+                src_path = os.path.join(root, nome_file)
+                dest_path = os.path.join(root, nuovo_nome)
+                
+                try:
+                    shutil.copy(src_path, dest_path)
+                    print(f"File copiato: {src_path} -> {dest_path}")
+                except Exception as e:
+                    print(f"Errore durante la copia di {nome_file}: {e}")
