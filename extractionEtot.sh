@@ -1,3 +1,5 @@
+#extract Energy values in subdirectories + vi Eamo.txt --> cp Evalues in Eamo.txt
+
 import os
 import re
 
