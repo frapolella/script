@@ -1,3 +1,5 @@
+#for d in d cp name_file into subdir + rm name_file name_subdir
+
 def cerca_e_copia(nome_file):
     """
     Cerca il file in ogni sottocartella e lo copia con il nome della sottocartella.
