@@ -1,0 +1,22 @@
+import yaml
+import glob
+
+files = sorted(glob.glob("optslap/data-optslap/posout_*.yaml"))  #---> select a real path 'n' find optimization steps *.yaml
+
+with open("traj.xyz", "w") as out:    #----> generates trajectory file ---> open it with molden or any visualization software
+
+    for f in files:
+        with open(f) as infile:
+            data = yaml.safe_load(infile)
+
+        atoms = data["positions"]  #---> find "positions" in posout_*.yaml
+
+        # number of atom
+        out.write(f"{len(atoms)}\n")  #---> add total numb of atoms
+        out.write(f"{f}\n")           #---> save file name as second line
+
+        for atom in atoms:
+            symbol = list(atom.keys())[0]  #---> add symbol form atom.keys
+            coords = atom[symbol]
+
+           out.write(f"{symbol} {coords[0]} {coords[1]} {coords[2]}\n")  #----> add 4 column
