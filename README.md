@@ -1,3 +1,3 @@
 # script
 
-#not all file scripts are tested
+#not all script files are tested
