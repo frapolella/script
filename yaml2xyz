@@ -1,3 +1,6 @@
+#This script tranforms optimization steps files in a real trajectory file viewable with visualization software.
+#PyBigDFT beyond logfiles, creates data-directory. The dir contains output files as posout_*.yaml.
+
 import yaml
 import glob
 
