@@ -1,0 +1,156 @@
+#                                     @@||How generate an input file||@@
+#
+#
+#
+#This file is written to easilly introduce a new rookie to develop an input file for BigDFT.
+#In the same directory of this guide there are example files to better understand how is an input file look like.#
+#The smartes way to add fragments to a system adding them to Database/XYZs or use native structures to compose it.
+#
+#After typing "python example.py" the script will always generate an *yaml file called BigDFT_log.yaml
+#Some command line used in PyBigDFT are available only via Jupyter-notebook as the visualizer. 
+#Example:
+#
+#   from BigDFT.Visualization import InlineVisualizer
+#   viz = InlineVisualizer(500,400)
+#   viz.display_system(sys)
+#
+#
+#
+#There are two main way to generate an input file:
+#          1° Use a program with a defined gui --> Ex.: Avogadro and export file with xyz extension. --> bigdft will automatically assume angstroem unit
+#             1.5° Add the xyz file into /build-dir/PyBigDFT/lib/BigDFT/Database/XYZs  --> now the xyz file may be choose while writing an input file
+#
+#  Example: from BigDFT.Systems import System
+#           from BigDFT.Fragments import Fragments
+#           from BigDFT.IO import XYZReader
+#
+#           N2 = Systems()
+#           with XYZReader("N2") as ifile:   ----> In this case the N2 molecule is taken from /PyBigDFT/BigDFT/Database/XYZs
+#           N2["N:0"] = Fragment([next(ifile)]) ----> Two N2 molecules are add into the environment called N:0 and N:1
+#           N2["N:1"] = Fragment([next(ifile)])
+#
+#
+#          2° Type manually the system's structure 
+#
+#
+#
+#Let's generate an atom!
+#
+#   from BigDFT.Atoms import Atom
+#   at = Atom({'r':[1.0, 0.0, 0.0], 'sym':"He", 'units': 'bohr'})
+#   print(dict(at))
+#
+#This command prints what is written after *at* --> distances, atom symbol and Bohr radius (= GS of orbital in H atom).
+#
+#Any supplementary information may be displayed as:
+#   at["source"] = "tutorial"
+#   print(dict(at))
+#
+#   print(at.get_position())
+#   print(at.get_position(units="angstroem"))  --> converts Bohr coordinates in angstroem 
+#   at.set_position([1.0, 1.0, 1.0], units="angstroem")
+#   print(at.get_position(units="angstroem"))  --> set coordinates to angstroem
+#
+#To see how is an basis input file look at **he.py**
+#
+#
+#As general rule PyBigDFT (what we are using to generate an input file) doesn't know the total electron (e-) number of a system <-- *Pseudopotential approximation*.
+#The total numer of e- depend on our chosen pseudopot. but we can set this ourself.
+#Example: 
+#   at.nel = 2 ----> This line sets the total numer of valence e-
+#   print(at.nel)
+#
+#
+#U may add other flags to further describe a system as:
+#
+#   from BigDFT.IO import XYZReader  --> an XYZReader, search a possibile *.xyz in PyBigDFT 
+#   from BigDFT.Systems import Systems  --> generate a system combining different fragments 
+#   from BigDFT.Fragments import Fragments  --> Fragments generates atoms clustes as combination of 2 or more compounds
+#  
+#
+#
+#                            @@||How compose a system||@@
+#                            @@||How compose a system||@@
+#                            @@||How compose a system||@@
+#
+#
+#The general rule of thumb: combining is the key
+#U may combine atoms to generate a fragment (small systems) or add a fragment to another to create a system.
+#
+#How we combine in pratical? --> Appening atoms to an empty fragment.
+#
+#   at1 = Atom({'r': [1.0, 0.0, 0.0], 'sym':"He", 'units':'bohr', "nzion": 2})
+#   at2 = Atom({'r': [3.0, 0.0, 0.0], 'sym':"He", 'units':'bohr', "nzion": 2})
+#
+#   from BigDFT.Fragments import Fragment
+#   frag = Fragments()
+#   frag.append(at1)
+#   frag.append(at2)
+#
+#   for at in frag
+#     print(dict(at))
+#
+#
+#To see how is an basis input file look at **hefrag.py**
+#
+#
+#In order to generate a "real" system the file must be compose of atoms and fragments
+#
+#
+#from BigDFT.Atoms import Atom
+#at1 = Atom({'r': [1.0, 0.0, 0.0], 'sym':"He", 'units':'bohr', "nzion": 2})
+#at2 = Atom({'r': [3.0, 0.0, 0.0], 'sym':"He", 'units':'bohr', "nzion": 2})
+#
+#from BigDFT.Fragments import Fragment
+#frag = Fragment()
+#frag.append(at1)
+#frag.append(at2)
+#
+#
+#for at in frag:  --> display info
+#  print(dict(at))
+#
+#To display the sistem just created type in jupyter-notebook
+#
+#NBVAL_IGNORE_OUTPUT
+#from BigDFT.Visualization import InlineVisualizer
+#viz = InlineVisualizer (500, 400)
+#
+#To see how is an basis input file look at **hesys.py**
+#
+#
+#Example input:
+#from BigDFT.IO import XYZReader  #--> starts XYZReader --> Database/file.xyz
+#from BigDFT.Systems import System #--> create the system
+#from BigDFT.Fragments import Fragment#--> combine fragments (or molecule.xyz)
+#
+#sys = System()
+#sys["SI4:0"] = Fragment()  #----> gives to a fragment a name in a system (in this case is SI4); 0 indicates the system order
+#with XYZReader("CH4") as ifile:  #--> search in Database/file.xyz called CH4
+#    for atom in ifile:          #--> add atoms to the fragment SI4:0 
+#        sys["SI4:0"].append(atom)  #--> add CH4 atoms to the system
+#                       
+#    
+#sys["CH2F:1"] = Fragment()   #----> CH2F:1 is defined as a fragment componing the system
+#with XYZReader("CH2F") as ifile:
+#    for atom in ifile:
+#        sys["CH2F:1"].append(atom)
+#sys["CH2F:1"].translate([-5,0,0])  #--> traslate the fragment of a define quantities
+#
+#from BigDFT.Visualization import InlineVisualizer  #--> starts the visualizator
+#viz = InlineVisualizer(400, 300)                   #--> screen lenght
+#viz.display_system(sys, colordict={x: "black" for x in sys}, show=False)
+#viz.display_system(sys, colordict={x: "blue" for x in sys}, show=True)
+#
+#
+#Exercise --> change sys["SI4:0"] = Fragment() into sys["aldo:0"] = Fragment(); 
+#
+#             sys["aldo:0"].append(atom) into sys["aldo:0"].append(atom)
+#           **with XYZReader("CH4") as ifile:** into **with XYZReader("mario") as ifile:**
+#           The System has changed name into aldo furthermore the *xyz molecule has changed into mario.xyz
+#
+#
+#
+#
+
+

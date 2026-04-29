@@ -1,0 +1,133 @@
+#BigDFT-suite
+#
+#It's an improved version of "normal" BigDFT implementing futile (compiler) 'n' CHESS (Sparce matrix solver).
+#
+#While standard BigDFT-suite package use NTpoly, GaIn and PyBigDFT, it doesn't implement "libNEGF" library.
+#To achive maximum potential of bigDFT-suite packages is strongly recommended to install "libNEGF" first --> Electronic transport.
+#If u don't want to use non-equilibrium Green's function library it's possible to add at 3) --> ***export BIGDFT_CONFIGURE_FLAGS="--enable-mpi --with-openblas --disable-negf"***
+#
+#Generally PyBigDFT doens't do optimization or molecular dynamic operations but is possible to implement them useing openbabel.
+#When the conda env is created remenber to type:
+#    conda install conda-forge::python=3.8
+#    conda install conda-forge::openbabel
+#    cd User/username/Desktop/
+#    mkdir bigdftsuite
+#    cd bigdftsuite
+#    git clone https://gitlab.com/l_sim/bigdft-suite.git 
+#    conda install conda-forge::bigdftsuite
+#    cd bigdft-suite/PyBigDFT
+#    pip install -e .         **or** pip install pybigdft --> PyBigDFT will be installed on your base env
+#
+#Now your env is set to develop input, generate output and run optimization and dynamics
+#
+#To install the client version of BigDFT use:
+#    pip install PyBigDFT
+#
+#
+#To install Big-DFT in Linux 'n' Mac platforms use:
+#    conda install -c conda-forge::bigdft-suite
+# u may omit -c --> [-c CHANNEL] 
+#
+#In addition to that if u want to install libNEGF it's possible to type:
+#    conda install conda-forge::libnegf
+#
+#
+#A brief tutorial on actually compile BigDFT-suite in conda
+#
+#
+#1° Install git-lfs --> sudo apt install git-lfs
+#
+#           git lfs install
+#           git lfs fetch --all
+#           git lfs pull
+#
+#
+#
+#2° install libnegf --> git clone https://github.com/libnegf/libnegf.git
+#
+# cd libnegf \ mkdir build \ cd build 
+# cmake .. 
+# sudo make && sudo make install
+#
+#                libNEGF requires
+#
+#                CMake,
+#                C99 compiler,
+#                Fortran 2018 compiler,
+#                BLAS,
+#                LAPACK, and
+#                MPI 3.
+#
+#2.5° add the include path and lib path to libNEGF
+#into your rcfile.
+#
+#3° git clone https://gitlab.com/l_sim/bigdft-suite.git 
+#
+# if doesn't work try --> git clone https://github.com/aproeme/bigdft-suite.git
+#
+# During installation u must bind libnegf library to bigdftsuite
+#
+# 1) conda install conda-forge::compilers
+#    
+#
+#    conda install conda-forge::openmpi --> separatelly installing "compilers 'n' openmpi" is ruining the environment
+#    
+#
+#    conda install conda-forge::cmake anaconda::numpy anaconda::scipy conda-forge::libblas conda-forge::liblapack conda-forge::autoconf conda-forge::automake conda-forge::libtool conda-forge::openblas conda-forge::pkg-config
+#
+#
+# 2) conda install anaconda::python==3.10.20 --> BigDFT uses "jhbuild" better use older python but not strictly necessary
+# 
+# 
+# export FC=mpifort CC=gcc CXX=g++ FCFLAGS="-O2 -fopenmp"  CFLAGS="-O2" LDFLAGS="-fopenmp"
+# 
+#
+# 3) mkdir build-dir --> cd build-dir
+# 
+# export BIGDFT_CONFIGURE_FLAGS="--enable-mpi --with-openblas"
+# export CC=mpicc CXX=mpicxx FC=mpif90 MPICC=$(which mpicc)  MPIFC=$(which mpif90)
+# export FCFLAGS="-fopenmp"
+# export CFLAGS="-fopenmp"
+# export CXXFLAGS="-fopenmp"
+# export LDFLAGS="-fopenmp" 
+#
+# 
+# 4) python ../bigdft-suite/Installer.py autogen
+# 
+# 5) python ../bigdft-suite/Installer.py build -c
+#
+# 6) if error [18/18] try
+#
+#
+#export CC=mpicc
+#export FC=mpif90
+#export CXX=mpicxx
+#
+#
+# mpif90 -I. -I../includes -I/home/francesco/Desktop/bigdftsuite/bigdft-suite/bigdft/src/wavelib -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include/futile  -fopenmp -I/home/francesco/Desktop/libnegf/build/src/include -fallow-argument-mismatch  -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include  -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -L/home/francesco/Desktop/libnegf/build/src -lnegf -fopenmp -o memguess memguess.o MPIfake.o  libbigdft-1.a  -labinit -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -lorbs -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -llapack -lblas -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lxcf90 -lxc -lGaIn       -L/home/francesco/miniconda3/lib -larchive -lCheSS-1 -lPSolver-1 -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lNTPoly -llapack -lblas -Wl,-E
+ 
+#  mpif90 -I. -I../includes -I/home/francesco/Desktop/bigdftsuite/bigdft-suite/bigdft/src/wavelib -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include/futile  -fopenmp -I/home/francesco/Desktop/libnegf/build/src/include -fallow-argument-mismatch  -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include  -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -fopenmp -o frequencies frequencies.o  libbigdft-1.a  -labinit -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -L/home/francesco/Desktop/libnegf/build/src -lnegf -lorbs -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -llapack -lblas -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lxcf90 -lxc -lGaIn       -L/home/francesco/miniconda3/lib -larchive -lCheSS-1 -lPSolver-1 -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lNTPoly -llapack -lblas -Wl,-E
+
+#  mpif90 -I. -I../includes -I/home/francesco/Desktop/bigdftsuite/bigdft-suite/bigdft/src/wavelib -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include/futile  -fopenmp -I/home/francesco/Desktop/libnegf/build/src/include -fallow-argument-mismatch  -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include  -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -fopenmp -o utilities utilities.o  libbigdft-1.a  -labinit -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -L/home/francesco/Desktop/libnegf/build/src -lnegf -lorbs -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -llapack -lblas -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lxcf90 -lxc -lGaIn       -L/home/francesco/miniconda3/lib -larchive -lCheSS-1 -lPSolver-1 -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lNTPoly -llapack -lblas
+#
+#
+# mpif90 -I. -I../includes -I/home/francesco/Desktop/bigdftsuite/bigdft-suite/bigdft/src/wavelib -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include/futile  -fopenmp -I/home/francesco/Desktop/libnegf/build/src/include -fallow-argument-mismatch  -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include  -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -fopenmp -o test_forces test_forces.o  libbigdft-1.a  -labinit -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -L/home/francesco/Desktop/libnegf/build/src -lnegf -lorbs -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -llapack -lblas -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lxcf90 -lxc -lGaIn       -L/home/francesco/miniconda3/lib -larchive -lCheSS-1 -lPSolver-1 -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lNTPoly -llapack -lblas
+ 
+#  mpif90 -I. -I../includes -I/home/francesco/Desktop/bigdftsuite/bigdft-suite/bigdft/src/wavelib -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include/futile  -fopenmp -I/home/francesco/Desktop/libnegf/build/src/include -fallow-argument-mismatch  -I/home/francesco/Desktop/bigdftsuite/build-dir/install/include  -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -fopenmp -o bigdft BigDFT.o  libbigdft-1.a  -labinit -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -L/home/francesco/Desktop/libnegf/build/src -lnegf -lorbs -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -llapack -lblas -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lxcf90 -lxc -lGaIn       -L/home/francesco/miniconda3/lib -larchive -lCheSS-1 -lPSolver-1 -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -latlab-1 -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -L/home/francesco/Desktop/bigdftsuite/build-dir/install/lib -lfutile-1 -llapack -lblas -lyaml -lstdc++ -ldl -lrt -lNTPoly -llapack -lblas -Wl,-E
+#
+#
+# mpif90 test_negf_driver.f90 -o test_driv -I /home/francesco/Desktop/bigdftsuite/build-dir/install/include -L /home/francesco/Desktop/bigdftsuite/build-dir/install/lib  -lyaml -lNTPoly -lCheSS-1 -lfutile-1 -L /home/francesco/Desktop/libnegf/build/lib -lnegf -lmpifx -llapack -lblas  -fopenmp
+#
+#
+#7) test the driver
+#
+#mpif90 test_negf_driver.f90 -o test_driv \
+#-I /path/to/bigdft/build/install/include/ \
+#-L /path/to/bigdft/build/install/lib -lfutile-1 -lyaml -lNTPoly -lCheSS-1 \
+#-L /path/to/libnegf/lib -lnegf -lmpifx \
+# -framework Accelerate  -fopenmp
+#
+#
+#
+#other possibile command are:
+# export BIGDFT_CONFIGURE_FLAGS="FC=mpifort CC=gcc FCFLAGS='-O2 -fopenmp' LDFLAGS='-fopenmp'" --> python3.10 ../bigdftsuite/Installer.py build
