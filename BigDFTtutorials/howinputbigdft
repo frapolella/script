@@ -2,11 +2,12 @@
 #
 #
 #
-#This file is written to easilly introduce a new rookie to develop an input file for BigDFT.
-#In the same directory of this guide there are example files to better understand how is an input file look like.#
-#The smartes way to add fragments to a system adding them to Database/XYZs or use native structures to compose it.
+#This file is written to easily introduce a new rookie to develop input files for BigDFT.
+#In the same directory of this guide there are example files to better understand what an input file looks like.
+#All the examples works after compiling BigDFT and PyBigDFT and runs both in python and jupyter-notebook.
 #
-#After typing "python example.py" the script will always generate an *yaml file called BigDFT_log.yaml
+#After typing "python example.py" the script will always generate a blank *yaml file called BigDFT_log.yaml
+#
 #Some command line used in PyBigDFT are available only via Jupyter-notebook as the visualizer. 
 #Example:
 #
@@ -17,7 +18,7 @@
 #
 #
 #There are two main way to generate an input file:
-#          1° Use a program with a defined gui --> Ex.: Avogadro and export file with xyz extension. --> bigdft will automatically assume angstroem unit
+#          1° Use a program with a defined gui --> Ex.: Avogadro ---> export file with xyz extension. --> bigdft will automatically assume angstroem unit
 #             1.5° Add the xyz file into /build-dir/PyBigDFT/lib/BigDFT/Database/XYZs  --> now the xyz file may be choose while writing an input file
 #
 #  Example: from BigDFT.Systems import System
@@ -54,7 +55,7 @@
 #To see how is an basis input file look at **he.py**
 #
 #
-#As general rule PyBigDFT (what we are using to generate an input file) doesn't know the total electron (e-) number of a system <-- *Pseudopotential approximation*.
+#As general rule PyBigDFT doesn't know the total electron (e-) number of a system <-- *Pseudopotential approximation*.
 #The total numer of e- depend on our chosen pseudopot. but we can set this ourself.
 #Example: 
 #   at.nel = 2 ----> This line sets the total numer of valence e-
@@ -91,11 +92,11 @@
 #     print(dict(at))
 #
 #
-#To see how is an basis input file look at **hefrag.py**
+#To see a working input file look at **hefrag.py** contained in this directory.
 #
 #
 #In order to generate a "real" system the file must be compose of atoms and fragments
-#
+#The smartes way to add fragments to a system is to adding them to Database/XYZs or use native structures to compose it.
 #
 #from BigDFT.Atoms import Atom
 #at1 = Atom({'r': [1.0, 0.0, 0.0], 'sym':"He", 'units':'bohr', "nzion": 2})
