@@ -1,1 +1,3 @@
-If the system is smaller it's possible to spice it up by incresing the 
+If the system is smaller it's possible to spice it up by incresing the monomeric units.
+
+set
