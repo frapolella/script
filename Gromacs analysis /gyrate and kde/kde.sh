@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PLOTDEST="/home/francesco/Desktop/md/PLA40_200_PBAT9_68_XL_AMP60_9_trj/plot/kdevsrg"
+PLOTDEST="/path/directory/plots/kdevsrg"
 
 mkdir -p "$PLOTDEST"
 
