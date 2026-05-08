@@ -6,7 +6,8 @@ echo "=================================="
 echo ""
 echo "1) Run subdir.sh"
 echo "2) Run kde.sh"
-echo "3) Exit"
+echo "3) Run hbond.sh"
+echo "4) Exit"
 echo ""
 
 read -p "Choose an option: " choice
@@ -26,6 +27,12 @@ case $choice in
         ;;
 
     3)
+       echo ""
+       echo "Running hbond.sh"
+       bash hbond.sh
+       ;;
+
+    4)
         echo ""
         echo "Exit."
         exit 0
@@ -37,3 +44,4 @@ case $choice in
         ;;
 
 esac
+
