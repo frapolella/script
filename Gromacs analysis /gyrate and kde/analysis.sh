@@ -4,7 +4,7 @@ echo "=================================="
 echo "      GROMACS ANALYSIS MENU       "
 echo "=================================="
 echo ""
-echo "1) Run subdir.sh"
+echo "1) Run gyrate.sh"
 echo "2) Run kde.sh"
 echo "3) Run hbond.sh"
 echo "4) Exit"
@@ -16,8 +16,8 @@ case $choice in
 
     1)
         echo ""
-        echo "Running subdir.sh..."
-        bash subdir.sh
+        echo "Running gyrate.sh..."
+        bash gyrate.sh
         ;;
 
     2)
