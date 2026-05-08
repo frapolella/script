@@ -1,1 +1,1 @@
-Appliable script in Gromacs 
+Applicable script in Gromacs 
