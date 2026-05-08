@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # cartella finale dei plot
-PLOTDEST="/home/francesco/Desktop/md/PLA40_200_PBAT9_68_XL_AMP60_9_trj/plot/rg"
+PLOTDEST="/path/directory/plot/rg"
 
 mkdir -p "$PLOTDEST"
 
