@@ -1,0 +1,10 @@
+#Command list used to generate from a solution a single molecules indexfile
+#
+#
+#gmx select -s md.tpr -on aglc.ndx -select 'resname AGLC'
+#
+#gmx select -s md.tpr -on aglc_split.ndx -select 'resname AGLC' -selrpos whole_res_com
+#
+#for i in $(seq 1 8); do     gmx select -s md.tpr         -on aglc$i.ndx         -select "resnr $i"; done
+#
+#gmx gyrate -f npt_stat_400K_14.xtc -s md.tpr -n aglc_3.ndx -o aglc3.xvg -b 6000 -e 7000
