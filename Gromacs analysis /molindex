@@ -1,4 +1,4 @@
-#Command list used to generate from a solution a single molecules indexfile
+#Command list used to generate from a solution single molecules indexfiles
 #
 #
 #gmx select -s md.tpr -on aglc.ndx -select 'resname AGLC'
