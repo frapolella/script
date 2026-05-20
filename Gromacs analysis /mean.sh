@@ -2,7 +2,7 @@
 #1) Search 8 file called aglc
 #2) Extract the second column. Using awk ignores any line containing letters
 #3) Generate a all column file via paste
-#4) Does sum and mean for all column via akw (row1 + row2 +row3)/NF
+#4) Does sum and mean for all column via akw (row1 + row2 +row3)/NF= a column of decimal numbers
 
 ifiles=()
 
